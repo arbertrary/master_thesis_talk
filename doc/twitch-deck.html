@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<!-- This is the pandoc 2.7.3 template for reveal.js output modified for decker. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Armin Bernstetter">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Modelling Semantic Change on Twitch.tv Chat Messages</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="support/vendor/reveal/css/reset.css">
+  <link rel="stylesheet" href="support/vendor/reveal/css/reveal.css">
+  <link rel="stylesheet" href="support/plugins/whiteboard/whiteboard.css">
+  <link rel="stylesheet" href="support/plugins/menu/menu.css">
+  <style>
+        /* This is the global style block for decker's layout css variables (aka css custom properties) 
+        for all kinds of parameterization. Variables are set via an according YAML variable 
+        which defaults from the default.yaml. 
+        Can't be sourced out to external css file since variable substitution is performed
+        by pandoc which does not process the css */
+
+        :root {
+                /* This is the global variable for the default alignment. Defaults to left.    */
+                /* Can be overriden in local YAML and for whole slides or individual elements  */
+                --align-global: left;
+                /* Column spacing, in same awkward unit as reveal's margin which is fraction of 
+                space. Beware, does strange things if set too large. */
+                --margin-columns: calc(0em * 100%);
+                /* Now all the different font sizes */
+                --font-size-base: 28px;
+                --font-size-medium: calc(var(--font-size-base) * 1);
+                --font-size-xx-small: calc(var(--font-size-base) * 0.4);
+                --font-size-x-small: calc(var(--font-size-base) * 0.6);
+                --font-size-small: calc(var(--font-size-base) * 0.8);
+                --font-size-large: calc(var(--font-size-base) * 1.2);
+                --font-size-x-large: calc(var(--font-size-base) * 1.4);
+                --font-size-xx-large: calc(var(--font-size-base) * 1.6);
+                /* This one defines the basic vertical spacing between elements */
+                --spacing-vertical-base: 0.5em;
+                --margin-bottom-elements-base: 0.5em;
+                --margin-bottom-h1: calc(var(--margin-bottom-elements-base) * 1);
+                --margin-bottom-h2: calc(var(--margin-bottom-elements-base) * 0);
+                --margin-bottom-h2-block: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-h3: calc(var(--margin-bottom-elements-base) * 0);
+                --margin-bottom-h3-block: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-p: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-ol: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-ul: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-dl: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-figure: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-img: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-blockquote: calc(var(--margin-bottom-elements-base) * 0.8);
+                --margin-bottom-table: calc(var(--margin-bottom-elements-base) * 1);
+                --margin-bottom-columns: calc(var(--margin-bottom-elements-base) * 0);       
+                --margin-bottom-references: calc(var(--margin-bottom-elements-base) * 0.3);
+                /* The next custom properties for the look of the decoration */
+                --border-decoration-width: 20px;
+                --border-decoration-padding: 10px;
+                --border-decoration-style: solid;  
+                /* whiteboard buttons */
+                --whiteboard-icon-size: 2vmin;
+                --whiteboard-active-color: rgb(42,157,223);
+                --whiteboard-inactive-color: lightgrey;
+                --whiteboard-background-color: rgb(250,250,250);      
+        } 
+  </style>
+   
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="support/plugins/explain/explain.css">
+  <link rel="stylesheet" href="support/vendor/videojs/video-js.min.css">
+      <link rel="stylesheet" href="support/css/decker.css">
+        <link rel="stylesheet" href="css/template.css"/>
+  <script>
+    /* Store JSON encoded Pandoc meta data in a global variable for easy
+    reference from any script. */
+    window.Decker = {meta: {"fragmentInURL":true,"controls":true,"border-decoration-padding":"10px","hideCursorTime":"2000.0","transition":"none","chalkboard":"example-deck.json","hash":true,"history":false,"progress":true,"border-decoration-width":"20px","center":true,"whiteboard-inactive-color":"lightgrey","whiteboard-icon-size":"2vmin","menu":true,"overview":true,"margin":"5.0e-2","spacing-vertical-base":"0.5em","bibliography":"./bibliography.bib","margin-columns":"0em","test123":"test123","help":true,"provisioning":"Copy","hideInactiveCursor":true,"backgroundTransition":"none","date":"04. Oktober 2021","subtitle":"Master Thesis Defense","csl":"./chicago-author-date.csl","slideNumber":true,"whiteboard-active-color":"rgb(42,157,223)","rsync-destination":{"path":"/some/path","host":"git@gitlab2.informatik.uni-wuerzburg.de"},"zoom":true,"keyboard":true,"touch":true,"author":"Armin Bernstetter","title":"Modelling Semantic Change on Twitch.tv Chat Messages","template":{"css":"css/template.css","title-page":{"teaser-img":"img/twitch.png"}},"dictionary":{"de":{"quiz":{"qmi-drop-hint":"...und hier in die richtige Kategorie einsortieren.","solve-button":"Lösung","reset-button":"Zurücksetzen","input-placeholder":"Eingeben und 'Enter'","qmi-drag-hint":"Objekte per Drag&amp;Drop ziehen...","solution":"Lösung"},"exam":{"points":"Punkte","Medium":"Mittelschwer","solve-button":"Lösen","Easy":"Leicht","reset-button":"Zurücksetzen","Hard":"Schwer","again-button":"Nochmal","placeholder":"Antwort eingeben","solution":"Lösung"}},"en":{"quiz":{"qmi-drop-hint":"...and put them here into the correct category.","reset-button":"Reset","solution-button":"Show Solution","input-placeholder":"Type and press 'Enter'","qmi-drag-hint":"Drag items from here...","solution":"Show Solution"},"exam":{"points":"Points","Medium":"Medium","solve-button":"Solve","Easy":"Easy","reset-button":"Reset","Hard":"Hard","again-button":"Again","placeholder":"Type in answer","solution":"Solution"}}},"align-global":"left","vertical-slides":true,"font-size-base":"28px","fragments":true,"whiteboard-background-color":"rgb(250,250,250)","border-decoration-style":"solid"}};
+  </script>
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? String.raw`support/vendor/reveal/css/print/pdf.css` : String.raw`support/vendor/reveal/css/print/paper.css`;
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="https://unpkg.com/reveal.js@^4//lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+</head>
+<body data-deckid="">
+  <div class="reveal">
+    <div class="slides">
+
+    <!-- standard settings -->
+               <section id="title-slide" class="title-page">
+              <div class="valign-block">
+            <div class="valigned">
+                <div class="title"> Modelling Semantic Change on Twitch.tv Chat Messages</div>
+                                   <div class="subtitle"> Master Thesis Defense </div>
+                                                   <div class="teaser-img">
+                      <img src=img/twitch.png>
+                   </div>
+                                                   <div class="date"> 04. Oktober 2021 </div>
+                                                   <div class="author"> Armin Bernstetter </div>
+                                                 
+            </div>
+        </div>
+         </section>      
+   
+
+
+<section id="structure" class="slide level1">
+<h1>Structure</h1>
+<ol type="1">
+<li class="fragment">Background</li>
+<li class="fragment">Traditional Methods</li>
+<li class="fragment">Selected Experiments and Results</li>
+<li class="fragment">Multimodal Semantic Change Detection</li>
+<li class="fragment">Conclusion</li>
+</ol>
+</section>
+<section id="background" class="slide level1" style="text-align:center">
+<h1 style="text-align:center">1. Background</h1>
+</section>
+<section id="twitch.tv-recap" class="slide level1">
+<h1>Twitch.tv Recap</h1>
+<ul>
+<li class="fragment">Livestreaming platform</li>
+<li class="fragment">Mainly focussed on gaming content</li>
+<li class="fragment">Live Chat: Viewers can interact in real time with streamers and other users</li>
+</ul>
+</section>
+<section id="section" class="slide level1" data-background-image="img/full_twitch.png">
+<h1 data-background-image="img/full_twitch.png"> </h1>
+</section>
+<section id="twitch-chat" class="slide level1">
+<h1>Twitch Chat</h1>
+<div class="box columns left">
+<h2 class="left" id="section-1"></h2>
+<ul>
+<li class="fragment">Short messages (median: 3 tokens)</li>
+<li class="fragment">Memes and inside jokes</li>
+<li class="fragment">High amount of Emotes</li>
+</ul>
+</div>
+<div class="box columns fragment left">
+<h2 class="left" id="emotes">Emotes</h2>
+<ul>
+<li class="fragment">Unique to Twitch</li>
+<li class="fragment">Twitch translates text representation to image</li>
+<li class="fragment">Example: “<em>Kappa</em>” <span class="math inline">\(\Rightarrow\)</span> <img class="decker" data-src="img/Kappa.png" alt="Kappa.png"></li>
+<li class="fragment">Carry meaning (e.g. “<em>Kappa</em>” <span class="math inline">\(=\)</span> Sarcasm)</li>
+</ul>
+</div>
+</section>
+<section id="semantic-change" class="slide level1">
+<h1>Semantic Change</h1>
+<div class="box columns left">
+<h2 class="left" id="section-2"></h2>
+<p>Changes to or differences in the meaning and/or usage of words over time or between different domains</p>
+</div>
+<div class="box columns fragment">
+<h2 id="section-3"></h2>
+<figure class="decker" alt="gay.png"><img class="decker" data-src="img/gay.png"><figcaption class="decker"><span class="citation" data-cites="kulkarni2015statistically">(Kulkarni et al. 2015)</span></figcaption></figure>
+</div>
+</section>
+<section id="section-4" class="slide level1">
+<h1></h1>
+<div class="box columns">
+<h2 id="diachronic-semantic-change">Diachronic Semantic Change</h2>
+<p>Words changing meaning over time.</p>
+</div>
+<div class="box columns">
+<h2 id="synchronic-semantic-change">Synchronic Semantic Change</h2>
+<p>Domain-specific semantic change: Words having different meanings in different domains.</p>
+</div>
+</section>
+<section id="master-thesis-motivation" class="slide level1">
+<h1>Master Thesis Motivation</h1>
+<ul>
+<li class="fragment">Is it possible to detect semantic change in Twitch chat messages?</li>
+<li class="fragment">How quickly does the meaning of words, memes, and Emotes change on Twitch?</li>
+<li class="fragment">Do Emotes have special impact on the semantic change happening on Twitch?</li>
+</ul>
+</section>
+<section id="data" class="slide level1">
+<h1>Data</h1>
+<ul>
+<li class="fragment">May 2019 - April 2020</li>
+<li class="fragment">5.5 Billion messages</li>
+<li class="fragment">560 GB of data; 165 GB in plain text</li>
+<li class="fragment">Average message length: 5.4 tokens; median: 3 tokens</li>
+<li class="fragment">Minimal text preprocessing</li>
+<li class="fragment">Messages either ungrouped (one message = one sentence for Word Embeddings) or in distinct blocks of 30s/60s (one block = one sentence for Word Embeddings)</li>
+</ul>
+</section>
+<section id="synthetic-evaluation-framework" class="slide level1">
+<h1>Synthetic Evaluation Framework</h1>
+<ul>
+<li class="fragment"><span class="citation" data-cites="shoemark2019room">Shoemark et al. (2019)</span> inject pseudowords with synthetically generated semantic change</li>
+<li class="fragment">Synthetic dataset over custom time span with artificial semantic change</li>
+<li class="fragment">Measure performance of semantic change detection systems based on how well pseudowords are detected</li>
+</ul>
+</section>
+<section id="traditional-methods" class="slide level1" style="text-align:center">
+<h1 style="text-align:center">2. Traditional Methods</h1>
+</section>
+<section id="approach" class="slide level1">
+<h1>Approach</h1>
+<ul>
+<li class="fragment"><strong>Word Embeddings</strong>: Word2vec (Skip-Gram and CBOW)</li>
+<li class="fragment"><strong>Alignment</strong>: Embedding matrices aligned after training using <em>orthogonal procrustes</em> to ensure comparability <span class="citation" data-cites="hamilton2016diachronic">(Hamilton, Leskovec, and Jurafsky 2016)</span></li>
+<li class="fragment"><strong>Distance</strong>: Measure distance between vectors of a word using cosine distance or a <em>neighborhood</em> measure comparing the nearest neighbors</li>
+</ul>
+<aside class="notes">
+<h2></h2>
+<ul>
+<li>The orthogonal Procrustes problem is a matrix approximation problem in linear algebra. In its classical form, one is given two matrices A and B and asked to find an orthogonal matrix <span class="math inline">\(\Omega\)</span> which most closely maps A to <span class="math inline">\(\displaystyle B\)</span>.</li>
+<li>Neighborhood: second-order vector using neighbors of a word. Comparing constructed vectors to see whether the neighborhood has changed</li>
+</ul>
+</aside>
+</section>
+<section id="section-6" class="slide level1">
+<h1></h1>
+<ul>
+<li class="fragment"><strong>Two-Step approach</strong>: Measuring distance of word vectors between two time steps or domains</li>
+<li class="fragment"><strong>Change-point approach</strong>: Detecting a change-point in the meaning trajectory of a word in a time series</li>
+<li class="fragment"><strong>Output</strong>: A list of semantic change candidates ranked by distance (descending)</li>
+</ul>
+<aside class="notes">
+<h2></h2>
+<ul>
+<li>comparison/alignment model first or last</li>
+<li>calculate distance in reference to this comparison model</li>
+<li>time-series of distances</li>
+<li>change-point: mean-shift score for each word for time-series</li>
+</ul>
+</aside>
+</section>
+<section id="example-experiments-and-results" class="slide level1" style="text-align:center">
+<h1 style="text-align:center">3. Example Experiments and Results</h1>
+</section>
+<section id="example-1-change-points-for-selected-words" class="slide level1">
+<h1>Example 1: Change Points for Selected Words</h1>
+<img class="decker" data-src="img/covid_freqs.png" alt="covid_freqs.png">
+<aside class="notes">
+<h2></h2>
+<ul>
+<li>log scale because of wide range of values</li>
+</ul>
+</aside>
+</section>
+<section id="example-1-detected-change-points" class="slide level1 left">
+<h1 class="left">Example 1: Detected Change Points</h1>
+<ul>
+<li><strong>corona</strong>: December 2019</li>
+<li><strong>virus</strong>: December 2019</li>
+<li><strong>lockdown</strong>: February 2020</li>
+<li><strong>quarantine</strong>: February 2020</li>
+</ul>
+<p>(In the majority out of 8 tested configurations)</p>
+</section>
+<section id="example-2-synchronic-semantic-change-detection-between-games" class="slide level1">
+<h1>Example 2: Synchronic Semantic Change Detection between Games</h1>
+<div class="box columns">
+<h2 id="league-of-legends-vs-dota-2">League of Legends vs Dota 2</h2>
+<ul>
+<li>(Relatively) similar games</li>
+<li>Based on same Warcraft 3 custom game</li>
+<li>Common domain-specific vocabulary (e.g. <em>farming</em>)</li>
+</ul>
+</div>
+</section>
+<section id="example-2-experiment" class="slide level1">
+<h1>Example 2: Experiment</h1>
+<ul>
+<li class="fragment">Extract messages of each game from entire Twitch data set</li>
+<li class="fragment">Train word embeddings separately</li>
+<li class="fragment">4 configurations (CBOW/Skip-gram <span class="math inline">\(\times\)</span> cosine/neighborhood)</li>
+<li class="fragment">50 non-duplicate words out of 80 (top 20 for each configuration)</li>
+<li class="fragment">Domain experts: 14 words with attested semantic change, 21 with specific context but no explainable semantic change, 15 “normal” words</li>
+</ul>
+</section>
+<section id="example-2-selected-results" class="slide level1">
+<h1>Example 2: Selected Results</h1>
+<div class="box columns">
+<h2 id="words-with-specific-context-in-both-games">Words with specific context in both games</h2>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 89%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>blitz/Blitz</td>
+<td>LoL champion <em>Blitzcrank</em> vs Dota 2 personality William “Blitz” Lee</td>
+</tr>
+<tr class="even">
+<td>RP</td>
+<td>Dota 2: abbreviation for ability <em>Reverse Polarity</em>; LoL: ingame currency formerly known as <em>Riot Points</em></td>
+</tr>
+<tr class="odd">
+<td>s4</td>
+<td>Dota 2: Pro player Gustav “s4” Magnusson; LoL: Either <em>Season 4</em> (<span class="math inline">\(\widehat{=}\)</span> 2014) or <em>Silver IV</em> (ingame rank)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="example-2-selected-results-1" class="slide level1">
+<h1>Example 2: Selected Results</h1>
+<div class="box columns">
+<h2 id="words-with-specific-context-in-one-of-the-games">Words with specific context in one of the games</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>grant</td>
+<td>Dota 2 personality <em>GranDGranT</em> vs <em>to grant</em></td>
+</tr>
+<tr class="even">
+<td>jinx</td>
+<td>LoL champion <em>Jinx</em> vs <em>to jinx</em></td>
+</tr>
+<tr class="odd">
+<td>infamous</td>
+<td>Peruvian Dota 2 team</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="other-experiments" class="slide level1">
+<h1>Other Experiments</h1>
+<ul>
+<li class="fragment">Reproduction of results reported by <span class="citation" data-cites="schlechtweg2019woc">Schlechtweg et al. (2019)</span></li>
+<li class="fragment">Change-point analysis of german texts (Deutsches Textarchiv, DTA); Comparison to results of <em>Jena Semantic Explorer</em> (<a href="http://jeseme.org/">http://jeseme.org/</a>)</li>
+<li class="fragment">Successfully applied synthetic evaluation framework <span class="citation" data-cites="shoemark2019room">(Shoemark et al. 2019)</span> to Twitch data and DTA data</li>
+<li class="fragment">Successfully applied change-point approach to Dota 2 chat messages (Detected change-points correlating with events e.g. creation of new esports team)</li>
+</ul>
+</section>
+<section id="multimodal-semantic-change-detection" class="slide level1">
+<h1>4. Multimodal Semantic Change Detection</h1>
+</section>
+<section id="why-multimodal" class="slide level1">
+<h1>Why multimodal?</h1>
+<ul>
+<li class="fragment">Twitch chat messages not only text</li>
+<li class="fragment">Emotes not only tokens in text</li>
+<li class="fragment">Emotes are sentence modifiers (see: <em>Kappa</em> <span class="math inline">\(\widehat{=}\)</span> Sarcasm)</li>
+<li class="fragment">Train word and emote representations separately</li>
+<li class="fragment">Fuse vectors using <em>Auto-Fusion</em> architecture by <span class="citation" data-cites="sahu2019adaptive">Sahu and Vechtomova (2019)</span></li>
+</ul>
+</section>
+<section id="architecture" class="slide level1">
+<h1>Architecture</h1>
+<div class="box columns" style="text-align:center">
+<h2 style="text-align:center" id="section-9"></h2>
+<img class="decker" data-src="img/architecture.png" alt="architecture.png" style="width:70%;">
+</div>
+</section>
+<section id="multimodal-discussion" class="slide level1">
+<h1>Multimodal Discussion</h1>
+<ul>
+<li>Evaluation using synthetic evaluation framework</li>
+<li>Results not competitive compared to using traditional approach</li>
+</ul>
+<div class="box columns fragment">
+<h2 id="possible-reasons">Possible reasons:</h2>
+<ul>
+<li class="fragment">Too much information gets lost in preliminary steps (emote embeddings, concatenation)</li>
+<li class="fragment">Auto-Fusion module does not learn how to combine the information</li>
+<li class="fragment">Not very much additional information is provided by treating emotes as sentence modifiers</li>
+<li class="fragment">The additional information by treating emotes as sentence modifiers has no impact on semantic change detection</li>
+</ul>
+</div>
+</section>
+<section id="conclusion" class="slide level1">
+<h1>5. Conclusion</h1>
+<ul>
+<li class="fragment">Successfully reproduced existing results</li>
+<li class="fragment">Successfully applied existing methods to a novel dataset</li>
+<li class="fragment">Developed an experimental method for multimodal semantic change detection</li>
+</ul>
+</section>
+<section id="thank-you" class="slide level1" style="text-align:center">
+<h1 style="text-align:center">Thank You!</h1>
+</section>
+<section id="bibliography" class="slide level1 unnumbered">
+<h1 class="unnumbered">Bibliography</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-hamilton2016diachronic" class="csl-entry" role="doc-biblioentry">
+Hamilton, William L, Jure Leskovec, and Dan Jurafsky. 2016. <span>“Diachronic Word Embeddings Reveal Statistical Laws of Semantic Change.”</span> <em>arXiv Preprint arXiv:1605.09096</em>.
+</div>
+<div id="ref-kulkarni2015statistically" class="csl-entry" role="doc-biblioentry">
+Kulkarni, Vivek, Rami Al-Rfou, Bryan Perozzi, and Steven Skiena. 2015. <span>“Statistically Significant Detection of Linguistic Change.”</span> In <em>WWW</em>, edited by Aldo Gangemi, Stefano Leonardi, and Alessandro Panconesi, 625–35. ACM. <a href="http://dblp.uni-trier.de/db/conf/www/www2015.html#KulkarniAPS15">http://dblp.uni-trier.de/db/conf/www/www2015.html#KulkarniAPS15</a>.
+</div>
+<div id="ref-sahu2019adaptive" class="csl-entry" role="doc-biblioentry">
+Sahu, Gaurav, and Olga Vechtomova. 2019. <span>“Adaptive Fusion Techniques for Multimodal Data.”</span> <em>arXiv Preprint arXiv:1911.03821</em>.
+</div>
+<div id="ref-schlechtweg2019woc" class="csl-entry" role="doc-biblioentry">
+Schlechtweg, Dominik, Anna Hätty, Marco del Tredici, and Sabine Schulte im Walde. 2019. <span>“<span class="nocase">A Wind of Change: Detecting and Evaluating Lexical Semantic Change across Times and Domains</span>.”</span> In <em>Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics</em>, 732–46. Florence, Italy: Association for Computational Linguistics. doi:<a href="https://doi.org/10.18653/v1/P19-1072">10.18653/v1/P19-1072</a>.
+</div>
+<div id="ref-shoemark2019room" class="csl-entry" role="doc-biblioentry">
+Shoemark, Philippa, Farhana Ferdousi Liza, Dong Nguyen, Scott Hale, and Barbara McGillivray. 2019. <span>“Room to <span>G</span>lo: A Systematic Comparison of Semantic Change Detection Approaches with Word Embeddings.”</span> In <em>Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)</em>, 66–76. Hong Kong, China: Association for Computational Linguistics. doi:<a href="https://doi.org/10.18653/v1/D19-1007">10.18653/v1/D19-1007</a>.
+</div>
+</div>
+</section>
+    </div>
+  </div>
+
+  <script src="support/vendor/reveal/js/reveal.js"></script>
+  <script src="support/vendor/js/jquery.min.js"></script>
+  <script src="support/vendor/videojs/video.min.js"></script>
+  <script src="support/js/decker.js"></script>
+  <script src="support/js/sage.js"></script>
+  
+  <script>
+      // this has to be done before reveal highlight plugin is initialized
+      prepareCodeHighlighting();
+      prepareSAGE();
+  </script>
+
+
+  <link rel="stylesheet" href="support/examiner/examiner.css">
+  <script type="module">
+    import {prepareExaminer} from "./support/examiner/examiner.js";
+    prepareExaminer();
+  </script>
+
+
+
+
+
+  <script>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        pdfMaxPagesPerSlide: 10,
+        pdfSeparateFragments: false,
+        // Display controls in the bottom right corner
+        controls: Decker.meta.controls,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'true',
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: true,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        // Change the presentation direction to be RTL
+	// Randomizes the order of slides each time the presentation loads
+        // Turns fragments on and off globally
+        fragments: true,
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        // Stop auto-sliding after user input
+          // Hide cursor if inactive
+          hideInactiveCursor: true,
+          // Time before the cursor is hidden (in ms)
+          hideCursorTime: 2000.0,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'none', // none/fade/slide/convex/concave/zoom
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+        // whether to mark y-overflowing slides by a red border
+        checkOverflow: false,
+
+
+        // whether to use vertical slides (in decker.js)
+         verticalSlides: true,
+
+
+        // setup reveal-menu
+        menu: {
+          side: 'left',
+          width: 'wide',
+          numbers: false,
+          titleSelector: 'h1',
+          useTextContentForMissingTitles: false,
+          hideMissingTitles: false,
+          markers: true,
+          custom: false,  
+          themes: false,
+          transitions: false,
+          openButton: true,
+          openSlideNumber: true,
+          keyboard: true,
+          sticky: false,
+          autoOpen: true,
+          delayInit: false,
+          openOnInit: false,
+          loadIcons: false
+	    },
+
+        // mathjax
+        math: {
+          mathjax: String.raw`support/vendor/mathjax/`,
+          macros: {
+              R:         "{{\\mathrm{{I}\\kern-.15em{R}}}}",
+              laplace:   "{\\Delta}",
+              grad:      "{\\nabla}",
+              T:         "^{\\mathsf{T}}",
+              abs:       ['\\left\\lvert #1 \\right\\rvert', 1],
+              det:       ['\\left\\lvert #1 \\right\\rvert', 1],
+              norm:      ['\\left\\Vert #1 \\right\\Vert', 1],
+              iprod:     ['\\left\\langle #1 \\right\\rangle', 1],
+              vec:       ['{\\mathbf{\\boldsymbol{#1}}}', 1],
+              mat:       ['{\\mathbf{\\boldsymbol{#1}}}', 1],
+              set:       ['\\mathcal{#1}', 1],
+              func:      ['\\mathrm{#1}', 1],
+              trans:     ['{#1}\\mkern-1mu^{\\mathsf{T}}', 1],
+              matrix:    ['\\begin{bmatrix} #1 \\end{bmatrix}', 1],
+              vector:    ['\\begin{pmatrix} #1 \\end{pmatrix}', 1],
+              of:        ['\\left( #1 \\right\)', 1],
+              diff:      ['\\frac{\\mathrm{d}{#1}}{\\mathrm{d}{#2}}', 2],
+              pdiff:     ['\\frac{\\partial {#1}}{\\partial {#2}}', 2],
+              vc:        ['{\\mathbf{\\boldsymbol{#1}}}', 1],
+              qt:        ['\\hat{\\vc {#1}}', 1],
+              mt:        ['{\\mathbf{\\boldsymbol{#1}}}', 1],
+              pt:        ['\\boldsymbol{#1}', 1],
+              textcolor: ['\\color{#1}', 1]
+          }
+        },
+
+          // setup charts
+          chart: {
+              defaults: {
+                  global: {
+                      tooltips: {
+                          mode: 'point',
+                          intersect: true,
+                      },
+                      legend: { position: "bottom" },
+                      plugins: { colorschemes: { scheme: "tableau.Classic10" } }
+                  },
+              },
+              bar:   { borderWidth: "1" },
+              line:  { borderWidth: "2", tension: "0" },
+              radar: { borderWidth: "2" }
+          },
+
+
+
+       
+
+        
+          // plugins
+          dependencies: [
+              { src: String.raw`support/plugins/charts/Chart.js`},
+              { src: String.raw`support/plugins/charts/plugin-errorbars.js`},
+              { src: String.raw`support/plugins/charts/plugin-colorschemes.js`},
+              { src: String.raw`support/plugins/charts/plugin-csszoom.js`},
+              { src: String.raw`support/plugins/charts/csv2chart.js`},
+              { src: String.raw`support/plugins/math/math.js` },
+              { src: String.raw`support/plugins/whiteboard/whiteboard.js`},
+              { src: String.raw`support/plugins/zoom/zoom.js` },
+              { src: String.raw`support/plugins/print/print.js` },
+              { src: String.raw`support/plugins/search/search.js`, async: true },
+              { src: String.raw`support/plugins/quiz-wue/quiz-wue.js` },
+ 
+    
+              { src: String.raw`support/plugins/menu/menu.js`, async: true },
+              { src: String.raw`support/plugins/explain/explain.js` },
+              { src: String.raw`support/vendor/reveal/plugin/notes/notes.js`, async: true }
+          ]
+      });
+  </script>
+
+    </body>
+</html>

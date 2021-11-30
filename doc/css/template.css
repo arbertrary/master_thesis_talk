@@ -1,0 +1,113 @@
+/*
+ * GLOBAL VARIABLES
+ */
+
+:root {
+  --color1: #4B0082;
+  --color2: black;
+  /*
+   * --color1: #005aa0;
+   * --color2: #95c230;
+   */
+}
+
+/*
+ * GLOBAL HEADER IMG
+ */
+
+/*body {
+  background-image: url("/assets/logos/header.png");         
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: right;
+}
+*/
+
+
+/* 
+ * TITLE PAGE SETTINGS
+ */
+.reveal .title-page .title{
+	color: var(--color1);
+	font-weight: bold;
+}
+
+.reveal .title-page .subtitle{
+	color: var(--color2);
+	font-weight: bold;
+	text-decoration: overline;
+}
+
+.reveal .title-page .affiliation-logo img{
+  height: 50px;
+}
+
+.reveal .title-page .date{
+  	color: var(--color1);
+}
+
+.reveal .title-page .author{
+	color: var(--color1);
+	text-decoration: overline;
+}
+
+div .affiliation-logo{
+	margin-top: 20px;
+}
+
+/*
+ * OTHER GLOBAL DEFINITIONS
+ */
+
+.reveal .controls .navigate-right .controls-arrow {
+	color: var(--color1);
+}
+.reveal h1{
+	font-weight: bold;
+	color: var(--color1);
+}
+
+.reveal h2{
+	color: var(--color2);
+}
+
+
+.reveal div.box.columns.example{
+	border-color: var(--color1);
+}
+
+
+.reveal .progress{
+	height:5px;
+}
+.reveal .progress span{
+	background: var(--color1);
+}
+
+.reveal .slide-number{
+	font-size: medium;
+}
+
+/*
+ * REFERENCE/BIBLIOGRAPHY
+ */
+
+.reveal .references{
+	overflow: hidden;
+	margin-left: var(--border-decoration-width);
+    	padding-left: var(--border-decoration-padding);
+    	margin-right: var(--border-decoration-width);
+    	padding-right: var(--border-decoration-padding);
+}
+
+.reveal .references div{
+	font-size: medium;
+}
+
+.reveal .references div::before{
+	content: "•";
+}
+
+.reveal .references div span{
+	font-weight: bold;
+}

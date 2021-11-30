@@ -5,7 +5,7 @@ controls: true
 csl: 'chicago-author-date.csl'
 menu: true
 title: Modelling Semantic Change on Twitch.tv Chat Messages
-subtitle: Masterkolloquium
+subtitle: Master Thesis Defense
 author: Armin Bernstetter
 date: 04. Oktober 2021
 template:
